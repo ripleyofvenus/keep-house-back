@@ -10,7 +10,7 @@ curl "${API}${URL_PATH}" \
     "credentials": {
       "email": "ripleyofvenus@gmail.com",
       "password": "myapp",
-      "password_confirmation": myapp",
+      "password_confirmation": "myapp",
       "username": "RipleyHaus"
     }
   }'
