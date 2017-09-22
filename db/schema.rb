@@ -10,25 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 20170922195315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "examples", force: :cascade do |t|
+  create_table "articles", id: :bigserial, force: :cascade do |t|
+    t.string "title"
+    t.text   "content"
+  end
+
+  create_table "comments", id: :bigserial, force: :cascade do |t|
+    t.string   "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "examples", id: :bigserial, force: :cascade do |t|
     t.text     "text",       null: false
-    t.integer  "user_id",    null: false
+    t.bigint   "user_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_examples_on_user_id", using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :bigserial, force: :cascade do |t|
     t.string   "email",           null: false
     t.string   "token",           null: false
     t.string   "password_digest", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "username"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["token"], name: "index_users_on_token", unique: true, using: :btree
   end
