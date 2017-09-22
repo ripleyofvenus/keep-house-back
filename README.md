@@ -1,300 +1,58 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
-
-# rails-api-template
-
-A template for starting projects with `rails-api`. Includes authentication.
-
-At the beginning of each cohort, update the versions in [`Gemfile`](Gemfile).
-
-## Dependencies
-
-Install with `bundle install`.
-
--   [`rails-api`](https://github.com/rails-api/rails-api)
--   [`rails`](https://github.com/rails/rails)
--   [`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
--   [`ruby`](https://www.ruby-lang.org/en/)
--   [`postgres`](http://www.postgresql.org)
-
-Until Rails 5 is released, this template should follow the most recent released
-version of Rails 4, as well as track `master` branches for `rails-api` and
-`active_model_serializers`.
-
-## Installation
-
-1.  [Download](../../archive/master.zip) this template.
-1.  Unzip and rename the template directory.
-1.  Empty [`README.md`](README.md) and fill with your own content.
-1.  Move into the new project and `git init`.
-1.  Install dependencies with `bundle install`.
-1.  Rename your app module in `config/application.rb` (change
-    `RailsApiTemplate`).
-1.  Rename your project database in `config/database.yml` (change
-    `'rails-api-template'`).
-1.  Create a `.env` for sensitive settings (`touch .env`).
-1.  Generate new `development` and `test` secrets (`bundle exec rake secret`).
-1.  Store them in `.env` with keys `SECRET_KEY_BASE_<DEVELOPMENT|TEST>`
-    respectively.
-1.  In order to make requests to your deployed API, you will need to set
-    `SECRET_KEY_BASE` in the environment of the production API (using `heroku
-    config:set` or the Heroku dashboard).
-1.  In order to make requests from your deployed client application, you will
-    need to set `CLIENT_ORIGIN` in the environment of the production API (e.g.
-    `heroku config:set CLIENT_ORIGIN https://<github-username>.github.io`).
-1.  Setup your database with `bin/rake db:nuke_pave` or `bundle exec rake
-    db:nuke_pave`.
-1.  Run the API server with `bin/rails server` or `bundle exec rails server`.
-
-## Structure
-
-This template follows the standard project structure in Rails 4.
-
-`curl` command scripts are stored in [`scripts`](scripts) with names that
-correspond to API actions.
-
-User authentication is built-in.
-
-## Tasks
-
-Developers should run these often!
-
--   `bin/rake routes` lists the endpoints available in your API.
--   `bin/rake test` runs automated tests.
--   `bin/rails console` opens a REPL that pre-loads the API.
--   `bin/rails db` opens your database client and loads the correct database.
--   `bin/rails server` starts the API.
--   `scripts/*.sh` run various `curl` commands to test the API. See below.
-
-<!-- TODO -   `rake nag` checks your code style. -->
-<!-- TODO -   `rake lint` checks your code for syntax errors. -->
-
-## API
-
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
-
-Scripts are included in [`scripts`](scripts) to test built-in actions. Add your
-own scripts to test your custom API. As an alternative, you can write automated
-tests in RSpec to test your API.
-
-### Authentication
-
-| Verb   | URI Pattern            | Controller#Action |
-|--------|------------------------|-------------------|
-| POST   | `/sign-up`             | `users#signup`    |
-| POST   | `/sign-in`             | `users#signin`    |
-| PATCH  | `/change-password/:id` | `users#changepw`  |
-| DELETE | `/sign-out/:id`        | `users#signout`   |
-
-#### POST /sign-up
-
-Request:
-
-```sh
-curl http://localhost:4741/sign-up \
-  --include \
-  --request POST \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "'"${EMAIL}"'",
-      "password": "'"${PASSWORD}"'",
-      "password_confirmation": "'"${PASSWORD}"'"
-    }
-  }'
-```
-
-```sh
-EMAIL=ava@bob.com PASSWORD=hannah scripts/sign-up.sh
-```
-
-Response:
-
+##Project Concept
 ```md
-HTTP/1.1 201 Created
-Content-Type: application/json; charset=utf-8
+Keep House is an task manager app (similar to Trello) aimed at helping housemates
+(whether communal, family, dorms, etc.) keep track of what tasks need to be done
+around the house.
+This idea is step one in a more fully feature fleshed out app I intend to work on
+after WDI_020 has finished. I first came up with the idea for this app while
+trying to find an app my housemates and I could use to make our lives easier,
+through relieving the mental load of keeping track of things which needed doing
+around the house. The app will relieve this load through keeping track of tasks
+while aggregating the information to the user account or "House", enabling the
+ability to mark tasks as completed, or in need of attention.
 
-{
-  "user": {
-    "id": 1,
-    "email": "ava@bob.com"
-  }
-}
+My initial wire frame, concept sketches, and ERD can be found ```html <a href=https://imgur.com/gallery/dyFTN>here</a>
 ```
-
-#### POST /sign-in
-
-Request:
-
-```sh
-curl http://localhost:4741/sign-in \
-  --include \
-  --request POST \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "'"${EMAIL}"'",
-      "password": "'"${PASSWORD}"'"
-    }
-  }'
-```
-
-```sh
-EMAIL=ava@bob.com PASSWORD=hannah scripts/sign-in.sh
-```
-
-Response:
-
+##User Stories
 ```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+As a user, I want to...
+-have a profile I can access with my username and password
+-store my tasks to my profile
+-select tasks for my personal task-list from a list of tasks
+-put in custom tasks to my personal task-list
+-check off tasks when they are completed
+-uncheck tasks when they need to be done again
+-change my profile password if needed
 
-{
-  "user": {
-    "id": 1,
-    "email": "ava@bob.com",
-    "token": "BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f"
-  }
-}
-```
-
-#### PATCH /change-password/:id
-
-Request:
-
-```sh
-curl --include --request PATCH "http://localhost:4741/change-password/$ID" \
-  --header "Authorization: Token token=$TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
-    "passwords": {
-      "old": "'"${OLDPW}"'",
-      "new": "'"${NEWPW}"'"
-    }
-  }'
-```
-
-```sh
-ID=1 OLDPW=hannah NEWPW=elle TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/change-password.sh
-```
-
-Response:
-
+##Tables and Columns
 ```md
-HTTP/1.1 204 No Content
-```
+Table: House
+-Username
+-Email Address
+-Password
 
-#### DELETE /sign-out/:id
+Table: Tasks
+-Example Task 1
+-Example Task 2
+-Example Task 3
 
-Request:
+Table: Task List
+-UserID
+-taskID
 
-```sh
-curl http://localhost:4741/sign-out/$ID \
-  --include \
-  --request DELETE \
-  --header "Authorization: Token token=$TOKEN"
-```
-
-```sh
-ID=1 TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/sign-out.sh
-```
-
-Response:
-
+##Timeline
 ```md
-HTTP/1.1 204 No Content
-```
-
-### Users
-
-| Verb | URI Pattern | Controller#Action |
-|------|-------------|-------------------|
-| GET  | `/users`    | `users#index`     |
-| GET  | `/users/1`  | `users#show`      |
-
-#### GET /users
-
-Request:
-
-```sh
-curl http://localhost:4741/users \
-  --include \
-  --request GET \
-  --header "Authorization: Token token=$TOKEN"
-```
-
-```sh
-TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/users.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-
-{
-  "users": [
-    {
-      "id": 2,
-      "email": "bob@ava.com"
-    },
-    {
-      "id": 1,
-      "email": "ava@bob.com"
-    }
-  ]
-}
-```
-
-#### GET /users/:id
-
-Request:
-
-```sh
-curl --include --request GET http://localhost:4741/users/$ID \
-  --header "Authorization: Token token=$TOKEN"
-```
-
-```sh
-ID=2 TOKEN=BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f scripts/user.sh
-```
-
-Response:
-
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-
-{
-  "user": {
-    "id": 2,
-    "email": "bob@ava.com"
-  }
-}
-```
-
-### Reset Database without dropping
-
-This is not a task developers should run often, but it is sometimes necessary.
-
-**locally**
-
-```sh
-bin/rake db:migrate VERSION=0
-bin/rake db:migrate db:seed db:examples
-```
-
-**heroku**
-
-```sh
-heroku run rake db:migrate VERSION=0
-heroku run rake db:migrate db:seed db:examples
-```
-
-## [License](LICENSE)
-
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
+Day 1 (Friday) - Confirm project concept and outline with consultant team.
+Set up back-end files and deploy to Heroku.
+Start entering pseudo-code comments to outline my steps and actions to follow.
+If I have more time, start next days work.
+Day 2 (Saturday) - Build out models and migrations for my API. Ensure all
+endpoints work as expected.
+Day 3 (Sunday) - Continue working on back-end and/or debug and commit back-end
+endpoints working as expected.
+Day 4 (Monday) - Latest point to begin build on front end javascript, jquery,
+css & html.
+Day 5 (Tuesday) - Continue work from Monday. If possible complete project
+requirements.
+Day 6 (Wednesday) - Catch-up and Touch up day.
+Project Presentation Day
