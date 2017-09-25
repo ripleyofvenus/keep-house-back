@@ -1,17 +1,17 @@
 # frozen_string_literal: true
-class TasksController < ApplicationController
+class TasksController < OpenReadController
   before_action :set_task, only: [:show, :update, :destroy]
 
   # GET /tasks
   def index
-    @tasks = Task.all
+    @tasks = current_user.tasks.all
 
     render json: @tasks
   end
 
   # GET /tasks/1
   def show
-    render json: Task.find(params[:id])
+    render json: @task
   end
 
   # POST /tasks
